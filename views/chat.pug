@@ -1,0 +1,35 @@
+html
+	include head.html
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js')
+	Body
+		div.container
+			div.row
+				div.col-md-4
+					div.well
+						h1 Online Users
+						div#users
+				div.col-md-8
+					div#chat.chat
+					form#messageForm
+						div.form-group
+							label Enter Message
+							textarea.form-control#message
+							br
+							input.btn.btn-primary(type="submit", value="Send Message")
+		script.
+			$(function(){
+				var socket = io.connect();
+				var $messageForm=$('#messageForm');
+				var $message=$('#message');
+				var $chat=$('#chat');
+
+				$messageForm.submit(function(e){
+					e.preventDefault();
+					socket.emit('send message', $message.val());
+					$message.val('');
+				});
+
+				socket.on('new message', function(data){
+					$chat.append('<div class="well">' + data.msg + '</div>');
+				});
+			});

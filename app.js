@@ -4,13 +4,23 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var socket_io = require('socket.io');
+
+// var passport = require('passport');
+// var session = require('express-session');
 
 var home = require('./routes/home');
 var about = require('./routes/about');
 var blog = require('./routes/blog');
 var contact = require('./routes/contact');
+// var auth = require('./routes/auth');
+var chat = require('./routes/chat')
 
 var app = express();
+
+// Socket.io
+var io = socket_io();
+app.io = io;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,10 +34,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// app.use(session({
+//   secret: 'keyboard cat',
+//   resave: true,
+//   saveUninitialized: true
+// }));
+// app.use(passport.initialize());
+// app.use(passport.session());
+
 app.use('/', home);
 app.use('/about', about);
 app.use('/blog', blog);
 app.use('/contact', contact);
+// app.use('/auth', auth);
+app.use('/chat', chat);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,6 +65,24 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+
+// Socket.io Events
+var connections = [];
+
+io.sockets.on('connection', function(socket){
+	connections.push(socket);
+	console.log('Connected: ' + connections.length);
+
+	socket.on('diconnect', function () {
+		connections.splice(connections.indexOf(socket), 1);
+		console.log('Disconnected');
+	});
+
+	socket.on('send message', function (data) {
+		io.sockets.emit('new message', {msg: data});
+	});
 });
 
 module.exports = app;
