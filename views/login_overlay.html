@@ -1,0 +1,114 @@
+<style>
+	#login_overlay {
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color:rgba(0, 0, 0, 0.45);
+		z-index:9999;
+		visibility: hidden;
+	}
+
+	#box{
+		position: fixed;
+		right: 0;
+    left: 0;
+    top: 172px;
+    margin: 0 auto;
+    width: 220px;
+	}
+
+	.c {
+		position: relative;
+		width: 220px;
+		cursor: pointer
+	}
+
+	.image {
+		display: block;
+		width: 48px;
+		height: auto;
+	}
+
+	.overlay {
+		transition: .5s ease;
+		position: absolute;
+		bottom: 0;
+		left: 48px;
+		right: 0;
+		height: 100%;
+		width: 0;
+		opacity:0;
+		transition: .5s ease;
+	}
+
+
+	.c:hover .overlay {
+		width: 172px;
+		opacity: 1
+	}
+
+	.text {
+		white-space: nowrap; 
+		color: white;
+		font-size: 14px;
+		position: absolute;
+		overflow: hidden;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+	}
+</style>
+
+<div id="login_overlay">
+	<div id="box">
+	<h2 style="color: white; text-align: center;">SIGN IN...</h2>
+
+		<div class="c">
+		<img src="FB-144x144.png" alt="Avatar" class="image" >
+
+		<div class="overlay" style="background-color: #3B579D;">
+			<div class="text">LOGIN WITH FACEBOOK</div>
+		</div>
+	</div>
+
+	<div class="c">
+		<img src="GO-144x144.png" alt="Avatar" class="image" >
+
+		<div class="overlay" style="background-color: #eee;">
+			<div class="text" style="color: black;">LOGIN WITH GOOGLE</div>
+		</div>
+	</div>
+
+	<div class="c">
+		<img src="TW-144x144.png" alt="Avatar" class="image" >
+
+		<div class="overlay" style="background-color: #1da1f2;">
+			<div class="text">LOGIN WITH TWITTER</div>
+		</div>
+	</div>
+
+	<div class="c">
+		<img src="GH-144x144.png" alt="Avatar" class="image" >
+
+		<div class="overlay" style="background-color: #000;">
+			<div class="text">LOGIN WITH GITHUB</div>
+		</div>
+	</div>
+	<h2 style="color: red; cursor: pointer; text-align: center;"	 onclick="overlay2()" >X</h2>
+
+
+
+</div>
+
+	</div>
+
+	<script type="text/javascript">
+  function overlay2() {
+    el = document.getElementById("login_overlay");
+    el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible"; 
+    return false;
+}
+</script>
