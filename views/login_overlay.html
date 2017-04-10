@@ -62,11 +62,13 @@
 	}
 </style>
 
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
 <div id="login_overlay">
 	<div id="box">
 	<h2 style="color: white; text-align: center;">SIGN IN...</h2>
 
-		<div class="c">
+		<div class="c" id="fb">
 		<img src="FB-144x144.png" alt="Avatar" class="image" >
 
 		<div class="overlay" style="background-color: #3B579D;">
@@ -74,13 +76,14 @@
 		</div>
 	</div>
 
-	<div class="c">
-		<img src="GO-144x144.png" alt="Avatar" class="image" >
+	<div class="c" id="go">
+		<img src="GO-144x144.png"  alt="Avatar" class="image" >
 
 		<div class="overlay" style="background-color: #eee;">
 			<div class="text" style="color: black;">LOGIN WITH GOOGLE</div>
 		</div>
 	</div>
+	<script>startApp();</script>
 
 	<div class="c">
 		<img src="TW-144x144.png" alt="Avatar" class="image" >
@@ -105,10 +108,34 @@
 
 	</div>
 
-	<script type="text/javascript">
-  function overlay2() {
+<script type="text/javascript">
+function overlay2() {
     el = document.getElementById("login_overlay");
     el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible"; 
     return false;
 }
+
+var startApp = function() {
+    gapi.load('auth2', function(){
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      auth2 = gapi.auth2.init({
+        client_id: '873790128140-1kfdqoi2gll913tdq8oilgpnjiuk4rre.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        // Request scopes in addition to 'profile' and 'email'
+        //scope: 'additional_scope'
+      });
+      attachSignin(document.getElementById('go'));
+    });
+  };
+
+  function attachSignin(element) {
+    console.log(element.id);
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+          document.getElementById('name').innerText = "Signed in: " +
+              googleUser.getBasicProfile().getName();
+        }, function(error) {
+          alert(JSON.stringify(error, undefined, 2));
+        });
+  }
 </script>

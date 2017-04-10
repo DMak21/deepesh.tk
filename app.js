@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var socket_io = require('socket.io');
+var mongoose = require('mongoose');
 
 // var passport = require('passport');
 // var session = require('express-session');
@@ -14,13 +15,17 @@ var about = require('./routes/about');
 var blog = require('./routes/blog');
 var contact = require('./routes/contact');
 // var auth = require('./routes/auth');
-var chat = require('./routes/chat')
+var chat = require('./routes/chat');
 
 var app = express();
 
 // Socket.io
 var io = socket_io();
 app.io = io;
+
+// Connect to MongoDB
+mongoose.connect('mongodb://127.0.0.1:27017/sampledb')
+mongoose.Promise = global.Promise;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
