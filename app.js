@@ -24,7 +24,7 @@ var io = socket_io();
 app.io = io;
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/sampledb')
+mongoose.connect('mongodb://user:OriOn21*@mongodb/sampledb')
 mongoose.Promise = global.Promise;
 
 // view engine setup
